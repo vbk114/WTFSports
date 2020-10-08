@@ -1,0 +1,123 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_250sdp"
+                android:layout_margin="@dimen/_10sdp" android:background="@color/color_white">
+
+
+    <TextView
+            android:id="@+id/tvProductName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter the 6 digit OTP sent to your email"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/color_1e2325"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:maxLines="2"
+            android:layout_below="@+id/appbar"
+            android:lineSpacingExtra="@dimen/_2sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_2sdp" android:layout_centerHorizontal="true"/>
+
+
+    <LinearLayout
+            android:id="@+id/lvFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvProductName"
+            android:orientation="horizontal" android:gravity="center" android:background="@color/clolor_f9f8f8">
+
+        <EditText
+                android:id="@+id/et1"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:inputType="phone"
+                android:background="@drawable/text_box_round"
+                android:layout_width="40dp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_height="40dp"/>
+
+        <EditText
+                android:id="@+id/et2"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:inputType="phone"
+                android:background="@drawable/text_box_round"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+        <EditText
+                android:id="@+id/et3"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:inputType="phone"
+                android:background="@drawable/text_box_round"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+
+        <EditText
+                android:id="@+id/et4"
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:inputType="phone"
+                android:background="@drawable/text_box_round"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+        <EditText
+            android:id="@+id/et5"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:inputType="phone"
+            android:background="@drawable/text_box_round"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+        <EditText
+            android:id="@+id/et6"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:inputType="phone"
+            android:background="@drawable/text_box_round"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <include layout="@layout/layout_toolbar"/>
+
+        <include layout="@layout/layout_line" android:id="@+id/viewLine"
+                 android:layout_width="match_parent" android:layout_height="@dimen/_1sdp"
+        />
+
+    </LinearLayout>
+
+
+    <TextView
+            android:text="Submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bnApply"
+            android:background="@drawable/rounded_rect_corner_button"
+            android:textSize="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp" android:layout_marginBottom="@dimen/_10sdp"
+            android:paddingStart="@dimen/_30sdp" android:paddingEnd="@dimen/_30sdp" android:paddingTop="@dimen/_7sdp"
+            android:paddingBottom="@dimen/_7sdp" android:textColor="@color/white"
+             android:layout_alignParentBottom="false"
+            android:layout_alignParentEnd="false" android:layout_below="@+id/lvFilter"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_centerHorizontal="true"/>
+</RelativeLayout>

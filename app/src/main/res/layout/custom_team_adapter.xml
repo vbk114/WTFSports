@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="120dp"
+    android:layout_height="120dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="12dp"
+    app:cardUseCompatPadding="true"
+    tools:context=".accounts.adapters.CustomTeamAdapter">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical"
+        android:padding="@dimen/_5sdp">
+
+        <ImageView
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            app:srcCompat="@drawable/csk"
+            android:id="@+id/ivTeamLogo"
+            android:layout_centerHorizontal="true"
+            />
+
+        <CheckBox
+            android:id="@+id/cbSelectTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:button="@drawable/unchecked"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:visibility="visible"
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textColor="@color/black"
+            android:text="CSK"
+            android:id="@+id/tvTeamName"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/_2sdp"
+            android:maxLines="2"
+            android:textAllCaps="true"
+            android:layout_marginTop="5dp"
+            android:gravity="center" />
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <ImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/wtf_logo"
+            android:id="@+id/ivProgress"
+            android:adjustViewBounds="true"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+    />
+
+    <ProgressBar
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:id="@+id/progress_bar"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:progress="90"
+    />
+
+</RelativeLayout>

@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".dashboard.fragments.HomeFragment">
+
+   <TextView
+       android:id="@+id/tvMenu"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:textSize="18dp"
+       android:textColor="@color/black"
+       android:layout_below="@+id/view1"
+       android:text="Menu"
+       android:layout_centerHorizontal="true"
+       android:layout_marginTop="10dp"
+       android:layout_marginBottom="@dimen/_10sdp"
+       android:gravity="center_vertical"
+       android:layout_marginLeft="8dp"
+       android:layout_marginRight="8dp"/>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:background="@color/white"
+       android:padding="10dp">
+
+
+      <ImageView
+          android:id="@+id/userImageProfile"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_gravity="start"
+          android:elevation="8dp"
+          android:src="@drawable/wtf_logo" />
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+         <TextView
+             android:id="@+id/tvProfileName"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textSize="18dp"
+             android:text="WTFMedia"
+             android:textColor="@color/black"
+             android:layout_marginTop="5dp"
+             android:gravity="center_vertical"
+             android:layout_marginLeft="8dp"
+             android:layout_marginRight="8dp"/>
+
+         <TextView
+             android:id="@+id/tvseefull"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textSize="18dp"
+             android:text="See your profile"
+             android:textColor="@color/black"
+             android:layout_marginTop="5dp"
+             android:gravity="center_vertical"
+             android:layout_marginLeft="8dp"
+             android:layout_marginRight="8dp"/>
+
+      </LinearLayout>
+
+   </LinearLayout>
+
+  <androidx.appcompat.widget.LinearLayoutCompat
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="@dimen/_10sdp"
+      android:orientation="horizontal">
+
+     <androidx.appcompat.widget.LinearLayoutCompat
+         android:layout_width="wrap_content"
+         android:layout_height="@dimen/_80sdp"
+         android:orientation="vertical"
+         android:background="@drawable/text_box_round"
+         android:layout_weight="1"
+         android:layout_marginEnd="@dimen/_10sdp"
+         android:padding="10dp">
+
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_gravity="start"
+            android:elevation="8dp"
+            android:layout_weight="1"
+            android:src="@drawable/friendsxxxhdpi" />
+
+        <TextView
+            android:id="@+id/tvFriends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="14dp"
+            android:text="Friends"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="8dp"/>
+
+     </androidx.appcompat.widget.LinearLayoutCompat>
+
+     <androidx.appcompat.widget.LinearLayoutCompat
+         android:layout_width="wrap_content"
+         android:layout_height="@dimen/_80sdp"
+         android:orientation="vertical"
+         android:padding="@dimen/_10sdp"
+         android:background="@drawable/text_box_round"
+         android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_gravity="start"
+            android:elevation="8dp"
+            android:layout_weight="1"
+            android:src="@drawable/groupsxxxhdpi" />
+
+        <TextView
+            android:id="@+id/tvGroups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="14dp"
+            android:text="Groups"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginRight="8dp"/>
+
+     </androidx.appcompat.widget.LinearLayoutCompat>
+
+  </androidx.appcompat.widget.LinearLayoutCompat>
+
+   <androidx.appcompat.widget.LinearLayoutCompat
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:padding="@dimen/_10sdp"
+       android:orientation="horizontal">
+
+      <androidx.appcompat.widget.LinearLayoutCompat
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/_80sdp"
+          android:orientation="vertical"
+          android:background="@drawable/text_box_round"
+          android:layout_weight="1"
+          android:layout_marginEnd="@dimen/_10sdp"
+          android:padding="10dp">
+
+         <ImageView
+             android:layout_width="30dp"
+             android:layout_height="30dp"
+             android:layout_gravity="start"
+             android:elevation="8dp"
+             android:layout_weight="1"
+             android:src="@drawable/pagesxxxhdpi" />
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:maxLines="1"
+             android:textSize="14dp"
+             android:text="Pages"
+             android:textColor="@color/black"
+             android:layout_marginTop="10dp"
+             android:layout_weight="1"
+             android:gravity="center_vertical"
+             android:layout_marginRight="8dp"/>
+
+      </androidx.appcompat.widget.LinearLayoutCompat>
+
+      <androidx.appcompat.widget.LinearLayoutCompat
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/_80sdp"
+          android:orientation="vertical"
+          android:background="@drawable/text_box_round"
+          android:layout_weight="1"
+          android:padding="10dp">
+
+         <ImageView
+             android:layout_width="30dp"
+             android:layout_height="30dp"
+             android:layout_gravity="start"
+             android:elevation="8dp"
+             android:src="@drawable/matches_menupage" />
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Matches Calendar"
+             android:textColor="@color/black"
+             android:layout_marginTop="10dp"
+             android:maxLines="1"
+             android:textSize="14dp"
+             android:gravity="center_vertical"
+             android:layout_marginRight="8dp"/>
+
+      </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+   </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+   <androidx.appcompat.widget.LinearLayoutCompat
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:padding="@dimen/_10sdp"
+       android:orientation="horizontal">
+
+      <androidx.appcompat.widget.LinearLayoutCompat
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/_80sdp"
+          android:orientation="vertical"
+          android:layout_marginEnd="@dimen/_10sdp"
+          android:background="@drawable/text_box_round"
+          android:layout_weight="1"
+          android:padding="10dp">
+
+         <ImageView
+             android:layout_width="30dp"
+             android:layout_height="30dp"
+             android:layout_gravity="start"
+             android:elevation="8dp"
+             android:src="@drawable/livescore_menupage" />
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:maxLines="1"
+             android:textSize="14dp"
+             android:text="Live Score"
+             android:textColor="@color/black"
+             android:layout_marginTop="10dp"
+             android:gravity="center_vertical"
+             android:layout_marginRight="8dp"/>
+
+      </androidx.appcompat.widget.LinearLayoutCompat>
+
+      <androidx.appcompat.widget.LinearLayoutCompat
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/_80sdp"
+          android:orientation="vertical"
+          android:background="@drawable/text_box_round"
+          android:layout_weight="1"
+          android:padding="10dp">
+
+         <ImageView
+             android:layout_width="30dp"
+             android:layout_height="30dp"
+             android:layout_gravity="start"
+             android:elevation="8dp"
+             android:src="@drawable/help_menupage" />
+
+         <TextView
+             android:id="@+id/tvSupport"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:maxLines="1"
+             android:textSize="14dp"
+             android:text="Help &amp; Support"
+             android:textColor="@color/black"
+             android:layout_marginTop="10dp"
+             android:gravity="center_vertical"
+             android:layout_marginRight="8dp"/>
+
+      </androidx.appcompat.widget.LinearLayoutCompat>
+
+   </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+   <androidx.appcompat.widget.LinearLayoutCompat
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:padding="@dimen/_10sdp"
+       android:orientation="horizontal">
+
+      <androidx.appcompat.widget.LinearLayoutCompat
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:layout_marginEnd="@dimen/_10sdp"
+          android:background="@drawable/text_box_round"
+          android:layout_weight="1"
+          android:padding="10dp">
+
+         <ImageView
+             android:layout_width="30dp"
+             android:layout_height="30dp"
+             android:layout_gravity="start"
+             android:elevation="8dp"
+             android:src="@drawable/settings_menupage" />
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:maxLines="1"
+             android:textSize="14dp"
+             android:text="Settings &amp; Privacy"
+             android:textColor="@color/black"
+             android:layout_marginTop="10dp"
+             android:gravity="center_vertical"
+             android:layout_marginRight="8dp"/>
+
+      </androidx.appcompat.widget.LinearLayoutCompat>
+
+      <androidx.appcompat.widget.LinearLayoutCompat
+          android:id="@+id/llogout"
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/_80sdp"
+          android:orientation="vertical"
+          android:background="@drawable/text_box_round"
+          android:layout_weight="1"
+          android:padding="10dp">
+
+         <ImageView
+             android:layout_width="30dp"
+             android:layout_height="30dp"
+             android:layout_gravity="start"
+             android:elevation="8dp"
+             android:src="@drawable/logout_menupage" />
+
+         <TextView
+             android:id="@+id/tvLogout"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:maxLines="1"
+             android:textSize="14dp"
+             android:text="Log out"
+             android:textColor="@color/black"
+             android:layout_marginTop="10dp"
+             android:gravity="center_vertical"
+             android:layout_marginRight="8dp"/>
+
+      </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+   </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

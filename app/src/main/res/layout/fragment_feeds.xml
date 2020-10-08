@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+
+    tools:context=".dashboard.fragments.ProfileFragment">
+
+    <include layout="@layout/layout_toolbar_white"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View android:id="@+id/separator9"
+                android:background="@color/black"
+                android:layout_width = "fill_parent"
+                android:layout_height="1dip"
+                android:layout_marginTop="10dp"  />
+            
+            <LinearLayout
+                android:id="@+id/llCreatePost"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="10dp"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userImageProfile"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="140dp"
+                    android:layout_gravity="start"
+                    android:src="@drawable/userimage" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WTFSPORTS"
+                    android:gravity=""
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:hint="What's on your mind?"
+                android:paddingStart="10dp"
+                android:id="@+id/etPostFeed"
+                android:background="@null"
+                android:layout_gravity="center_horizontal"
+                android:gravity="top"
+                android:drawablePadding="6dp"
+                android:paddingEnd="10dp"
+                />
+
+            <ImageView
+                android:id="@+id/ivPostImage"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                android:contentDescription="post image">
+
+            </ImageView>
+
+            <View android:id="@+id/separator"
+                android:background="@color/black"
+                android:layout_width = "fill_parent"
+                android:layout_height="1dip"
+                android:layout_marginTop="15dp" />
+
+            <TableRow
+                android:id="@+id/trPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/ivPhoto"
+                    android:layout_width = "@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:src="@drawable/photo_createpostpage"
+                    android:layout_centerVertical ="true" />
+
+                <TextView
+                    android:id="@+id/tvphoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="Photo"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
+
+            </TableRow>
+
+            <View android:id="@+id/separator1"
+                android:background="@color/black"
+                android:layout_width = "fill_parent"
+                android:layout_height="1dip"
+                android:layout_marginTop="10dp" />
+
+            <TableRow
+                android:id="@+id/trPolls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/ivFriends"
+                    android:layout_width = "@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:src="@drawable/poll_createpostpage"
+                    android:layout_centerVertical ="true" />
+
+                <TextView
+                    android:id="@+id/tvFriends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="Polls"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
+
+            </TableRow>
+
+            <View android:id="@+id/separator2"
+                android:background="@color/black"
+                android:layout_width = "fill_parent"
+                android:layout_height="1dip"
+                android:layout_marginTop="10dp"  />
+
+            <TableRow
+                android:id="@+id/trmcq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/ivMcq"
+                    android:layout_width = "@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:src="@drawable/mcq_createpostpage"
+                    />
+
+                <TextView
+                    android:id="@+id/tvMcq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="Mcq"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:drawablePadding="10dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+
+            </TableRow>
+
+            <View android:id="@+id/separator3"
+                android:background="@color/black"
+                android:layout_width = "fill_parent"
+                android:layout_height="1dip"
+                android:layout_marginTop="10dp"  />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

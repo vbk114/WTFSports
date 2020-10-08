@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_calendar"
+        android:icon="@drawable/matches_calendar_black"
+        android:title=""/>
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/profile_black"
+        android:title=""/>
+
+    <item
+        android:id="@+id/navigation_group"
+        android:icon="@drawable/groups_menupage"
+        android:iconTint="@color/black"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/home_black"
+        android:title="" />
+
+</menu>

@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">WTFMedia</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="facebook">Facebook</string>
+    <string name="google">Google</string>
+    <string name="email_id">Email Id</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="cpassword">Confirm Password</string>
+    <string name="email">Email</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="next">Next</string>
+    <string name="submit">Submit</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="title_activity_team_selection">TeamSelectionActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_group">Groups</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_home_menu">HomeMenuActivity</string>
+    <string name="create_post">Create Post</string>
+    <string name="lbl_share_link">https://play.google.com/store/apps/details?id=com.e5ctech.wtfsports</string>
+</resources>
