@@ -20,6 +20,7 @@ import bibou.biboubeauty.com.utils.networking.BibouApiClient
 import com.e5ctech.wtfsports.R
 import com.e5ctech.wtfsports.accounts.adapters.FeedsAdapter
 import com.e5ctech.wtfsports.dashboard.model.Feeds
+import com.e5ctech.wtfsports.dashboard.model.FeedsParams
 import com.e5ctech.wtfsports.dashboard.model.FeedsResponse
 import com.e5ctech.wtfsports.utils.base.BaseFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -71,6 +72,10 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
         bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         expandCloseBottomSheetBehaviour()
+    }
+
+    override fun onResume() {
+        super.onResume()
         getFeedsResponse()
     }
 
@@ -80,7 +85,7 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
 
     fun getFeedsResponse() {
         showProgressDialog()
-        val feedsResponse = FeedsResponse()
+        val feedsResponse = FeedsParams()
         feedsResponse.senderid = getBaseActivity()!!.getUsersLocally().id!!
         val call = BibouApiClient
             .instance(getBaseActivity()!!)

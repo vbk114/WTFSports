@@ -8,10 +8,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -52,14 +49,18 @@ class OtpDialogFragmnt : BaseDialogFragment() {
     private var callback: onVerifyOtpListner? = null
 
     interface onVerifyOtpListner {
-        fun onVerifyOtp(isVerified:Boolean,users: Users)
+        fun onVerifyOtp(isVerified: Boolean, users: Users)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         rootView = inflater.inflate(R.layout.fragment_otp_dialog_fragmnt, container, false)
         getExtras()
@@ -85,7 +86,7 @@ class OtpDialogFragmnt : BaseDialogFragment() {
         bnApply.setOnClickListener {
             getOtpValues()
             if (otpValue != null && otpValue.isNotEmpty() && users.otp!!.trim() == otpValue.trim()){
-                callback!!.onVerifyOtp(true,users)
+                callback!!.onVerifyOtp(true, users)
                 dismiss()
             }else{
                 Toast.makeText(context, "Otp does not matches", Toast.LENGTH_SHORT)
@@ -243,6 +244,66 @@ class OtpDialogFragmnt : BaseDialogFragment() {
                 } else if (s.isEmpty()) {
                     et6.requestFocus();
                 }
+            }
+        })
+
+        et6.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                    et5.requestFocus()
+                }
+                return false
+            }
+        })
+
+        et5.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                    et4.requestFocus()
+                }
+                return false
+            }
+        })
+
+        et4.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                    et3.requestFocus()
+                }
+                return false
+            }
+        })
+
+        et3.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                    et2.requestFocus()
+                }
+                return false
+            }
+        })
+
+        et2.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                    et1.requestFocus()
+                }
+                return false
             }
         })
     }

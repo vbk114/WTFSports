@@ -10,27 +10,29 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.RelativeSizeSpan
+import android.util.Base64.DEFAULT
+import android.util.Base64.encodeToString
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TableRow
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import bibou.biboubeauty.com.utils.ImageUtil
 import bibou.biboubeauty.com.utils.networking.BibouApiClient
-import bibou.biboubeauty.com.utils.networking.DefaultResponse
 import com.e5ctech.wtfsports.R
-import com.e5ctech.wtfsports.dashboard.model.Feeds
+import com.e5ctech.wtfsports.dashboard.model.AddPost
 import com.e5ctech.wtfsports.dashboard.model.FeedsResponse
 import com.e5ctech.wtfsports.utils.base.BaseActivity
-import org.json.JSONObject
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -48,7 +50,7 @@ class CreatePostFeedsActivity : BaseActivity() {
     lateinit var trPolls:TableRow
     lateinit var trmcq:TableRow
     lateinit var etPostFeed:EditText
-    lateinit var photoBase64Value:String
+    var photoBase64Value:String? = null
     lateinit var ivPostImage:ImageView
     lateinit var tvName:TextView
 
@@ -80,14 +82,29 @@ class CreatePostFeedsActivity : BaseActivity() {
         showProgressDialog()
 
         val userId = decodeString(getUsersLocally().id!!)
-        val feeds = Feeds()
-        feeds.postimage = photoBase64Value
-        feeds.posttext = etPostFeed.text.toString()
-
+        var img: String = ""
+        if (photoBase64Value != null) {
+            img = photoBase64Value!!
+        } else {
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.dummyimage)
+            val byteStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteStream)
+            val byteArray: ByteArray = byteStream.toByteArray()
+            val imageUtil = ImageUtil(this)
+            val baseString: String = imageUtil.encodeTobase64(bitmap)
+            img = baseString
+        }
+        val feeds = AddPost(img, etPostFeed.text.toString())
+        //feeds.posttext = etPostFeed.text.toString()
+        Log.e("token", ":::" + getUsersLocally().token)
+        Log.e("feedsparams", ":::" + Gson().toJson(feeds))
         val call = BibouApiClient
             .instance(this@CreatePostFeedsActivity)
-            .usersApi.savePost(userId,feeds)
-
+            .usersApi.savePost(userId, feeds)
+        /*, mapOf(
+            "Authorization" to "Bearer $" + getUsersLocally().tokens.access
+            , "Content-Type" to "application/json"
+        )*/
         call.enqueue(object : Callback<FeedsResponse> {
             override fun onResponse(
                 call: Call<FeedsResponse>,
@@ -103,11 +120,12 @@ class CreatePostFeedsActivity : BaseActivity() {
                 } else {
                     dismissProgressDialog()
                     showToast("error occured")
-                   // finish()
+                    // finish()
                 }
             }
 
             override fun onFailure(call: Call<FeedsResponse>, t: Throwable) {
+
                 dismissProgressDialog()
                 //finish()
             }
@@ -330,12 +348,13 @@ class CreatePostFeedsActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId){
-            R.id.create_post->{
-                if(etPostFeed.text.toString().isNotEmpty()){
+            R.id.create_post -> {
+                if (etPostFeed.text.toString().isNotEmpty()) {
                     savePostFeeds()
-                }else{
+                } else {
                     showToast("Write your post atleast one char")
                 }
+                //savePostFeeds()
             }
         }
 

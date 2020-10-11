@@ -35,14 +35,16 @@
                     android:id="@+id/profileCard"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
-                    android:background="@drawable/rounded_rect_corner_card">
+                    android:gravity="center_horizontal">
 
-                    <ImageView
+                    <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/ivCoverImage"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_200sdp"
-                        />
+                        android:scaleType="centerCrop"
+                        app:riv_corner_radius="30dp"
+                        app:riv_border_width="1dp"
+                        app:riv_border_color="@color/grey_light"/>
 
                     <RelativeLayout
                         android:id="@+id/rlCoverImage"

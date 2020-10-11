@@ -1,12 +1,9 @@
 package com.e5ctech.wtfsports.accounts.api
 
-import bibou.biboubeauty.com.utils.networking.CountryResponse
-import bibou.biboubeauty.com.utils.networking.DefaultResponse
-import bibou.biboubeauty.com.utils.networking.OtpResponse
-import bibou.biboubeauty.com.utils.networking.TeamSelectionResponse
+import bibou.biboubeauty.com.utils.networking.*
+import com.e5ctech.wtfsports.accounts.models.UpdateUserResponse
 import com.e5ctech.wtfsports.accounts.models.Users
-import com.e5ctech.wtfsports.dashboard.model.Feeds
-import com.e5ctech.wtfsports.dashboard.model.FeedsResponse
+import com.e5ctech.wtfsports.dashboard.model.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -19,7 +16,7 @@ interface UsersApi {
 
     @Headers("Content-Type: application/json")
     @PUT("main/update-user-text/{id}/")
-    fun updateUser(@Path("id") userId:String,@Body users: Users): Call<DefaultResponse>
+    fun updateUser(@Path("id") userId:String,@Body users: UpdateUser): Call<UpdateUserResponse>
 
     @Headers("Content-Type: application/json")
     @PUT("main/update-user-profile-image/{id}/")
@@ -33,7 +30,7 @@ interface UsersApi {
 
     @Headers("Content-Type: application/json")
     @POST("main/user-post/{id}/")
-    fun savePost(@Path("id") id:String, @Body feeds: Feeds): Call<FeedsResponse>
+    fun savePost(@Path("id") id:String, @Body feeds: AddPost): Call<FeedsResponse>
 
     @POST("auth/login/")
     fun loginUser(@Body users: Users): Call<DefaultResponse>
@@ -51,7 +48,7 @@ interface UsersApi {
 
     @Headers("Content-Type: application/json")
     @POST("main/get-personal-feeds/")
-    fun getFeedsResponse(@Body feedsResponse: FeedsResponse): Call<FeedsResponse>
+    fun getFeedsResponse(@Body feedsResponse: FeedsParams): Call<FeedsResponse>
 
     @Headers("Content-Type: application/json")
     @GET("auth/country/")

@@ -1,34 +1,27 @@
 package com.e5ctech.wtfsports.accounts.activities
 
-import android.Manifest
-import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.core.app.ActivityCompat
 import bibou.biboubeauty.com.utils.networking.BibouApiClient
 import bibou.biboubeauty.com.utils.networking.CountryResponse
 import bibou.biboubeauty.com.utils.networking.DefaultResponse
 import com.e5ctech.wtfsports.R
-import com.e5ctech.wtfsports.accounts.adapters.ArticlesAdapter
 import com.e5ctech.wtfsports.accounts.fragments.OtpDialogFragmnt
+import com.e5ctech.wtfsports.accounts.models.UpdateUserResponse
 import com.e5ctech.wtfsports.accounts.models.Users
+import com.e5ctech.wtfsports.dashboard.model.UpdateUser
 import com.e5ctech.wtfsports.utils.base.BaseActivity
+import com.google.gson.Gson
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -150,7 +143,8 @@ class RegisterActivity : BaseActivity(),AdapterView.OnItemSelectedListener,OtpDi
             if(isvalid() && !isForEdit){
                 saveUser()
             } else if(isForEdit && isvalidEdit()){
-                updateUser()
+                var user = UpdateUser(etFullName.text.toString(), etPhoneNo.text.toString(), "location", "$year-$month-$day")
+                updateUser(user)
             }
         }
 
@@ -447,26 +441,36 @@ class RegisterActivity : BaseActivity(),AdapterView.OnItemSelectedListener,OtpDi
         })
     }
 
-    fun updateUser() {
+    fun updateUser(user: UpdateUser) {
         showProgressDialog()
         val call = BibouApiClient
             .instance(this@RegisterActivity)
-            .usersApi.updateUser(getUsersLocally().id!!,users)
+            .usersApi.updateUser(getUsersLocally().id!!,user)
 
-        call.enqueue(object : Callback<DefaultResponse> {
+        call.enqueue(object : Callback<UpdateUserResponse> {
             override fun onResponse(
-                call: Call<DefaultResponse>,
-                response: Response<DefaultResponse>
+                call: Call<UpdateUserResponse>,
+                response: Response<UpdateUserResponse>
             ) {
 
                 if (response.isSuccessful) {
-
-                    val defaultResponse = response.body();
-                    Log.e("TAG", "response 33: " + defaultResponse!!.Responce.email)
-                    val users = defaultResponse.Responce
-                    saveUsersLocally(users);
-                    dismissProgressDialog()
-                    showOtpFragment(users)
+                    try {
+                        dismissProgressDialog()
+                        val defaultResponse = response.body();
+                        Log.e("updatedprofile", ":::" + Gson().toJson(defaultResponse!!))
+                        val users1 = defaultResponse.Response
+                        var user: Users = Users()
+                        user.fullname = users1.name
+                        user.contactno = users1.contactno
+                        user.location = users1.location
+                        user.dob = users1.dob
+                        saveUsersLocally(users)
+                        showToast(defaultResponse.message)
+                        finish()
+                        //showOtpFragment(users)
+                    } catch (e: java.lang.Exception){
+                        e.printStackTrace()
+                    }
                 } else {
                     try {
                         dismissProgressDialog()
@@ -476,7 +480,7 @@ class RegisterActivity : BaseActivity(),AdapterView.OnItemSelectedListener,OtpDi
                 }
             }
 
-            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UpdateUserResponse>, t: Throwable) {
                 dismissProgressDialog()
               showToast("Error occured")
             }
