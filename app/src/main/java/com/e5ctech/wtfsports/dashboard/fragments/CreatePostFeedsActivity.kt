@@ -10,11 +10,12 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Base64.DEFAULT
+import android.util.Base64
 import android.util.Base64.encodeToString
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TableRow
@@ -24,22 +25,29 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import bibou.biboubeauty.com.utils.ImageUtil
 import bibou.biboubeauty.com.utils.networking.BibouApiClient
+import com.e5ctech.wtfsports.BuildConfig
 import com.e5ctech.wtfsports.R
 import com.e5ctech.wtfsports.dashboard.model.AddPost
+import com.e5ctech.wtfsports.dashboard.model.Feeds
 import com.e5ctech.wtfsports.dashboard.model.FeedsResponse
 import com.e5ctech.wtfsports.utils.base.BaseActivity
 import com.google.gson.Gson
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.InputStream
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Base64.getUrlEncoder
 
 
 class CreatePostFeedsActivity : BaseActivity() {
 
+    private var call: Call<FeedsResponse>? = null
     lateinit var toolbar: Toolbar
     private var imageCaptureFile: Uri? = null
     val PICK_CAMERA_IMAGE_GALLERY = 235
@@ -53,6 +61,7 @@ class CreatePostFeedsActivity : BaseActivity() {
     var photoBase64Value:String? = null
     lateinit var ivPostImage:ImageView
     lateinit var tvName:TextView
+    var selectedfeed: Feeds? = null
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,9 +82,41 @@ class CreatePostFeedsActivity : BaseActivity() {
 
         tvName.text = getUsersLocally().fullname
 
+        if (intent.extras != null){
+            selectedfeed = intent.extras!!.getSerializable("feed") as Feeds?
+            etPostFeed.setText(selectedfeed!!.posttext)
+            photoBase64Value = getByteArrayFromImageURL(BuildConfig.APP_HOST + selectedfeed!!.postimage)
+            Picasso.get()
+                .load(BuildConfig.APP_HOST + selectedfeed!!.postimage)
+                .into(ivPostImage, object : com.squareup.picasso.Callback {
+                    override fun onSuccess() {
+                        ivPostImage.visibility = View.VISIBLE
+                    }
+
+                    override fun onError(e: Exception) {
+                        ivPostImage.visibility = View.GONE
+                    }
+                })
+        }
+
         trPhoto.setOnClickListener{
             selectImage()
         }
+    }
+
+    private fun getByteArrayFromImageURL(url: String): String? {
+        try {
+            //var imageEncoded = java.util.Base64.getUrlEncoder().encodeToString(url.toByteArray())
+            var imageEncoded = "data:image/jpeg;base64," + encodeToString(
+                url.toByteArray(),
+                android.util.Base64.DEFAULT
+            )
+            Log.e("editimg", ":::" + imageEncoded)
+            return imageEncoded
+        } catch (e: Exception) {
+            Log.d("Error", e.toString())
+        }
+        return null
     }
 
     fun savePostFeeds() {
@@ -98,14 +139,17 @@ class CreatePostFeedsActivity : BaseActivity() {
         //feeds.posttext = etPostFeed.text.toString()
         Log.e("token", ":::" + getUsersLocally().token)
         Log.e("feedsparams", ":::" + Gson().toJson(feeds))
-        val call = BibouApiClient
-            .instance(this@CreatePostFeedsActivity)
-            .usersApi.savePost(userId, feeds)
-        /*, mapOf(
-            "Authorization" to "Bearer $" + getUsersLocally().tokens.access
-            , "Content-Type" to "application/json"
-        )*/
-        call.enqueue(object : Callback<FeedsResponse> {
+        if (selectedfeed != null){
+            call = BibouApiClient
+                .instance(this@CreatePostFeedsActivity)
+                .usersApi.updatePost(selectedfeed!!.id, feeds)
+        } else {
+            call = BibouApiClient
+                .instance(this@CreatePostFeedsActivity)
+                .usersApi.savePost(userId, feeds)
+        }
+
+        call!!.enqueue(object : Callback<FeedsResponse> {
             override fun onResponse(
                 call: Call<FeedsResponse>,
                 response: Response<FeedsResponse>

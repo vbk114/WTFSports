@@ -1,19 +1,15 @@
 package com.e5ctech.wtfsports.dashboard.fragments
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.PopupWindow
-import android.widget.TableRow
+import android.view.*
+import android.widget.*
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import bibou.biboubeauty.com.utils.networking.BibouApiClient
@@ -39,6 +35,8 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
 
     lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
     lateinit var rvFeeds:RecyclerView
+    var vbg: View? = null
+    var selectedfeeds: Feeds? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +54,7 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
         val trPhoto = view.findViewById<TableRow>(R.id.trPhoto)
         val trPolls = view.findViewById<TableRow>(R.id.trPolls)
         rvFeeds = view.findViewById(R.id.rvFeeds)
-
+        vbg = view.findViewById(R.id.v_bg)
         trmcq.setOnClickListener(this)
         trPolls.setOnClickListener(this)
         trPhoto.setOnClickListener(this)
@@ -69,9 +67,112 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        trEdit.setOnClickListener {
+            if (selectedfeeds != null) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                vbg!!.visibility = View.GONE
+                val intent = Intent(requireActivity(), CreatePostFeedsActivity::class.java)
+                var args = Bundle()
+                args.putSerializable("feed", selectedfeeds)
+                intent.putExtras(args)
+                startActivity(intent)
+            }
+        }
+
+        trDelete.setOnClickListener {
+            if (selectedfeeds != null){
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                vbg!!.visibility = View.GONE
+                deletePostDialog()
+            }
+        }
         bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        vbg!!.visibility = View.GONE
         expandCloseBottomSheetBehaviour()
+
+        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when(newState){
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        vbg!!.visibility = View.VISIBLE
+                    }
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+
+                    }
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        vbg!!.visibility = View.GONE
+                    }
+                    BottomSheetBehavior.STATE_DRAGGING -> {
+                        if (vbg!!.visibility == View.VISIBLE){
+                            vbg!!.visibility = View.GONE
+                        } else {
+                            vbg!!.visibility = View.VISIBLE
+                        }
+                    }
+                    BottomSheetBehavior.STATE_SETTLING -> {
+
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+
+        })
+    }
+
+    private fun deletePostDialog() {
+        val dialog = Dialog(requireContext(), android.R.style.Theme_Translucent_NoTitleBar_Fullscreen)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_delete_post)
+
+        val btn_cancel = dialog.findViewById(R.id.btn_cancel) as TextView
+        val btn_unsend = dialog.findViewById(R.id.btn_delete) as TextView
+
+        btn_cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btn_unsend.setOnClickListener {
+            dialog.dismiss()
+            deletePost(selectedfeeds)
+        }
+
+        dialog.show()
+    }
+
+    private fun deletePost(selectedfeed: Feeds?) {
+        showProgressDialog()
+        var call = BibouApiClient
+            .instance(getBaseActivity()!!)
+            .usersApi.deletePost(selectedfeed!!.id)
+
+        call!!.enqueue(object : Callback<FeedsResponse> {
+            override fun onResponse(
+                call: Call<FeedsResponse>,
+                response: Response<FeedsResponse>
+            ) {
+
+                if (response.isSuccessful) {
+
+                    val defaultResponse = response.body();
+                    val users = defaultResponse!!.Responce
+                    dismissProgressDialog()
+                } else {
+                    dismissProgressDialog()
+                    showToast("error occured")
+                    // finish()
+                }
+            }
+
+            override fun onFailure(call: Call<FeedsResponse>, t: Throwable) {
+
+                dismissProgressDialog()
+                //finish()
+            }
+        })
     }
 
     override fun onResume() {
@@ -81,6 +182,7 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
 
     fun expandCloseBottomSheetBehaviour(): Boolean {
         return bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN
+        vbg!!.visibility = View.GONE
     }
 
     fun getFeedsResponse() {
@@ -136,10 +238,13 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
     }
 
     override fun onItemMenuClick(feeds: Feeds) {
+        selectedfeeds = feeds
         if (bottomSheetBehavior!!.state == BottomSheetBehavior.STATE_HIDDEN) {
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+            vbg!!.visibility = View.VISIBLE
         } else {
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+            vbg!!.visibility = View.GONE
         }
     }
 

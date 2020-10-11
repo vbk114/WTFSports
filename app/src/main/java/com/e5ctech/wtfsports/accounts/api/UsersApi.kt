@@ -32,6 +32,14 @@ interface UsersApi {
     @POST("main/user-post/{id}/")
     fun savePost(@Path("id") id:String, @Body feeds: AddPost): Call<FeedsResponse>
 
+    @Headers("Content-Type: application/json")
+    @PUT("main/update-post/{id}/")
+    fun updatePost(@Path("id") id:Int, @Body feeds: AddPost): Call<FeedsResponse>
+
+    @Headers("Content-Type: application/json")
+    @DELETE("main/delete-post/{id}/")
+    fun deletePost(@Path("id") id:Int): Call<FeedsResponse>
+
     @POST("auth/login/")
     fun loginUser(@Body users: Users): Call<DefaultResponse>
 
