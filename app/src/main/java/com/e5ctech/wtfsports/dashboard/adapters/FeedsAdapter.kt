@@ -27,6 +27,7 @@ class FeedsAdapter(var feedsList:MutableList<Feeds>,
 
     interface onItemMenuSelectedListener {
         fun onItemMenuClick(feeds: Feeds)
+        fun onCommentClick(feeds: Feeds)
     }
 
     override fun onBindViewHolder(holder: CustomHolder, position: Int) {
@@ -50,7 +51,8 @@ class FeedsAdapter(var feedsList:MutableList<Feeds>,
         val tvTime = itemView.findViewById(R.id.tvTime) as TextView
         val tvFeedDetails = itemView.findViewById(R.id.tvFeedDetails) as TextView
         val tvLikeCommentCountNo = itemView.findViewById(R.id.tvLikeCommentCountNo) as TextView
-
+        val tvComment = itemView.findViewById(R.id.tvComment) as TextView
+        
         fun bindProducts(
             activity: BaseActivity,
             onitemMenuSelectedListener: onItemMenuSelectedListener,
@@ -77,6 +79,9 @@ class FeedsAdapter(var feedsList:MutableList<Feeds>,
                 onitemMenuSelectedListener.onItemMenuClick(feeds)
             }
 
+            tvComment.setOnClickListener {
+                onitemMenuSelectedListener.onCommentClick(feeds)
+            }
         }
     }
 }

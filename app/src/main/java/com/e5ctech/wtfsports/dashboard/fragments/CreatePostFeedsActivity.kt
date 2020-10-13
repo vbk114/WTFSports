@@ -5,13 +5,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Base64
-import android.util.Base64.encodeToString
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -39,10 +38,10 @@ import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.InputStream
+import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.Base64.getUrlEncoder
 
 
 class CreatePostFeedsActivity : BaseActivity() {
@@ -104,15 +103,27 @@ class CreatePostFeedsActivity : BaseActivity() {
         }
     }
 
-    private fun getByteArrayFromImageURL(url: String): String? {
+    private fun getByteArrayFromImageURL(imgurl: String): String? {
         try {
-            //var imageEncoded = java.util.Base64.getUrlEncoder().encodeToString(url.toByteArray())
-            var imageEncoded = "data:image/jpeg;base64," + encodeToString(
+            var bitmap: Bitmap? = null
+            Picasso.get().load(imgurl).into(object : com.squareup.picasso.Target {
+                override fun onBitmapLoaded(bitmp: Bitmap?, from: Picasso.LoadedFrom?) {
+                    // loaded bitmap is here (bitmap)
+                    bitmap = bitmp
+                }
+
+                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+
+                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
+            })
+            /*var imageEncoded = "data:image/jpeg;base64," + encodeToString(
                 url.toByteArray(),
                 android.util.Base64.DEFAULT
-            )
-            Log.e("editimg", ":::" + imageEncoded)
-            return imageEncoded
+            )*/
+            val imageUtil = ImageUtil(this)
+            val baseString: String = imageUtil.encodeTobase64(bitmap)
+            Log.e("editimg", ":::" + baseString)
+            return baseString
         } catch (e: Exception) {
             Log.d("Error", e.toString())
         }

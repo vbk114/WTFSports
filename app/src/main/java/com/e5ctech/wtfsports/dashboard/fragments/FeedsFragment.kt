@@ -10,6 +10,7 @@ import android.view.*
 import android.widget.*
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import bibou.biboubeauty.com.utils.networking.BibouApiClient
@@ -246,6 +247,15 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
             vbg!!.visibility = View.GONE
         }
+    }
+
+    override fun onCommentClick(feeds: Feeds) {
+        /*var fragment = Fragment()
+        fragment = HomeFragment()
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.containerNavigation, fragment)
+            .commit()*/
     }
 
 
