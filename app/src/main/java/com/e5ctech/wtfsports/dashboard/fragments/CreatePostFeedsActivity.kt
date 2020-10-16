@@ -29,6 +29,7 @@ import com.e5ctech.wtfsports.R
 import com.e5ctech.wtfsports.dashboard.model.AddPost
 import com.e5ctech.wtfsports.dashboard.model.Feeds
 import com.e5ctech.wtfsports.dashboard.model.FeedsResponse
+import com.e5ctech.wtfsports.dashboard.model.SharePost
 import com.e5ctech.wtfsports.utils.base.BaseActivity
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
@@ -46,6 +47,7 @@ import java.util.*
 
 class CreatePostFeedsActivity : BaseActivity() {
 
+    private var is_share: Boolean = false
     private var call: Call<FeedsResponse>? = null
     lateinit var toolbar: Toolbar
     private var imageCaptureFile: Uri? = null
@@ -53,6 +55,10 @@ class CreatePostFeedsActivity : BaseActivity() {
     val REQUEST_ID_MULTIPLE_PERMISSIONS = 1003
     val IMAGE_DIRECTORY_NAME ="WTFMedia"
 
+    lateinit var separator: View
+    lateinit var separator1: View
+    lateinit var separator2: View
+    lateinit var separator3: View
     lateinit var trPhoto:TableRow
     lateinit var trPolls:TableRow
     lateinit var trmcq:TableRow
@@ -69,9 +75,12 @@ class CreatePostFeedsActivity : BaseActivity() {
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        setTitle(R.string.create_post)
         setBackEnabled(true)
 
+        separator = findViewById(R.id.separator)
+        separator1 = findViewById(R.id.separator1)
+        separator2 = findViewById(R.id.separator2)
+        separator3 = findViewById(R.id.separator3)
         trmcq = findViewById(R.id.trmcq)
         trPolls = findViewById(R.id.trPolls)
         trPhoto = findViewById(R.id.trPhoto)
@@ -82,7 +91,21 @@ class CreatePostFeedsActivity : BaseActivity() {
         tvName.text = getUsersLocally().fullname
 
         if (intent.extras != null){
+            is_share = intent.extras!!.getBoolean("is_share")
             selectedfeed = intent.extras!!.getSerializable("feed") as Feeds?
+
+            if (is_share){
+                setTitle("Share Post")
+                separator.visibility = View.GONE
+                separator1.visibility = View.GONE
+                separator2.visibility = View.GONE
+                separator3.visibility = View.GONE
+                trPhoto.visibility = View.GONE
+                trPolls.visibility = View.GONE
+                trmcq.visibility = View.GONE
+            } else {
+                setTitle("Edit Post")
+            }
             etPostFeed.setText(selectedfeed!!.posttext)
             photoBase64Value = getByteArrayFromImageURL(BuildConfig.APP_HOST + selectedfeed!!.postimage)
             Picasso.get()
@@ -96,6 +119,8 @@ class CreatePostFeedsActivity : BaseActivity() {
                         ivPostImage.visibility = View.GONE
                     }
                 })
+        } else {
+            setTitle(R.string.create_post)
         }
 
         trPhoto.setOnClickListener{
@@ -112,9 +137,13 @@ class CreatePostFeedsActivity : BaseActivity() {
                     bitmap = bitmp
                 }
 
-                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+                    Log.e("picasso loading",":::")
+                }
 
-                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
+                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+                    Log.e("picasso failed",":::")
+                }
             })
             /*var imageEncoded = "data:image/jpeg;base64," + encodeToString(
                 url.toByteArray(),
@@ -135,13 +164,15 @@ class CreatePostFeedsActivity : BaseActivity() {
 
         val userId = decodeString(getUsersLocally().id!!)
         var img: String = ""
-        if (photoBase64Value != null) {
+        if (photoBase64Value != null && !photoBase64Value.equals("")) {
             img = photoBase64Value!!
         } else {
             val bitmap = BitmapFactory.decodeResource(resources, R.drawable.dummyimage)
-            val byteStream = ByteArrayOutputStream()
+            /*val byteStream = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteStream)
             val byteArray: ByteArray = byteStream.toByteArray()
+            val imageUtil = ImageUtil(this)
+            val baseString: String = imageUtil.encodeTobase64(bitmap)*/
             val imageUtil = ImageUtil(this)
             val baseString: String = imageUtil.encodeTobase64(bitmap)
             img = baseString
@@ -404,15 +435,58 @@ class CreatePostFeedsActivity : BaseActivity() {
 
         when(item.itemId){
             R.id.create_post -> {
-                if (etPostFeed.text.toString().isNotEmpty()) {
-                    savePostFeeds()
+                if (is_share){
+                    sharePost()
                 } else {
-                    showToast("Write your post atleast one char")
+                    if (etPostFeed.text.toString().isNotEmpty()) {
+                        savePostFeeds()
+                    } else {
+                        showToast("Write your post atleast one char")
+                    }
                 }
-                //savePostFeeds()
             }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun sharePost() {
+        showProgressDialog()
+
+        val userId = decodeString(getUsersLocally().id!!)
+        val postId = selectedfeed!!.id
+
+        val feeds = SharePost()
+        feeds.postid = postId
+        feeds.userprofileid = userId.toInt()
+        call = BibouApiClient
+            .instance(this@CreatePostFeedsActivity)
+            .usersApi.sharePost(feeds)
+
+        call!!.enqueue(object : Callback<FeedsResponse> {
+            override fun onResponse(
+                call: Call<FeedsResponse>,
+                response: Response<FeedsResponse>
+            ) {
+
+                if (response.isSuccessful) {
+
+                    val defaultResponse = response.body();
+                    showToast(defaultResponse!!.messages)
+                    dismissProgressDialog()
+                    finish()
+                } else {
+                    dismissProgressDialog()
+                    showToast("error occured")
+                    // finish()
+                }
+            }
+
+            override fun onFailure(call: Call<FeedsResponse>, t: Throwable) {
+
+                dismissProgressDialog()
+                //finish()
+            }
+        })
     }
 }

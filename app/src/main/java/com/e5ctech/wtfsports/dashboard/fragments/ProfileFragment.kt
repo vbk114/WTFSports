@@ -14,21 +14,25 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import bibou.biboubeauty.com.utils.ImageUtil
 import bibou.biboubeauty.com.utils.networking.BibouApiClient
 import bibou.biboubeauty.com.utils.networking.DefaultResponse
 import com.e5ctech.wtfsports.BuildConfig
 import com.e5ctech.wtfsports.R
 import com.e5ctech.wtfsports.accounts.activities.RegisterActivity
+import com.e5ctech.wtfsports.accounts.adapters.FeedsAdapter
 import com.e5ctech.wtfsports.accounts.models.Users
+import com.e5ctech.wtfsports.dashboard.model.Feeds
+import com.e5ctech.wtfsports.dashboard.model.FeedsParams
+import com.e5ctech.wtfsports.dashboard.model.FeedsResponse
 import com.e5ctech.wtfsports.utils.base.BaseFragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.feeds_list_fragment.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +41,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ProfileFragment : BaseFragment() ,View.OnClickListener{
+class ProfileFragment : BaseFragment() ,View.OnClickListener,FeedsAdapter.onItemMenuSelectedListener{
 
 
     lateinit var ivUserProfileimage:ImageView
@@ -51,6 +55,8 @@ class ProfileFragment : BaseFragment() ,View.OnClickListener{
     var isCoverPhoto = false
     lateinit var rlProfileImage:RelativeLayout
     lateinit var rlCoverImage:RelativeLayout
+    lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
+    lateinit var rvFeeds: RecyclerView
 
     override fun setUp() {
 
@@ -75,16 +81,34 @@ class ProfileFragment : BaseFragment() ,View.OnClickListener{
         rlCoverImage = rooView.findViewById(R.id.rlCoverImage)
         rlProfileImage = rooView.findViewById(R.id.rlProfileImage)
 
+        val etWriteFeed = rooView.findViewById<EditText>(R.id.etWriteFeed)
+        val trmcq = rooView.findViewById<TableRow>(R.id.trmcq)
+        val trPhoto = rooView.findViewById<TableRow>(R.id.trPhoto)
+        val trPolls = rooView.findViewById<TableRow>(R.id.trPolls)
+        rvFeeds = rooView.findViewById(R.id.rvFeeds)
+
+        trmcq.setOnClickListener(this)
+        trPolls.setOnClickListener(this)
+        trPhoto.setOnClickListener(this)
+        etWriteFeed.setOnClickListener(this)
+
         rlProfileImage.setOnClickListener(this)
         rlCoverImage.setOnClickListener(this)
         bnEditProfile.setOnClickListener(this)
 
         tvName.text = getBaseActivity()!!.getUsersLocally().fullname
 
-
-        getUser()
-
         return rooView
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        expandCloseBottomSheetBehaviour()
+        getUser()
+        getFeedsResponse()
     }
 
     fun getUser() {
@@ -123,10 +147,7 @@ class ProfileFragment : BaseFragment() ,View.OnClickListener{
                             .placeholder(R.drawable.userimage)
                             .into(ivCoverImage);
                     }
-
-                    // getBaseActivity()!!.updateUsersLocally(users)
                     dismissProgressDialog()
-
                 } else {
                     dismissProgressDialog()
                 }
@@ -239,6 +260,18 @@ class ProfileFragment : BaseFragment() ,View.OnClickListener{
                 val intent = Intent(requireActivity(), RegisterActivity::class.java)
                 intent.putExtra("isForEdit",true)
                 startActivity(intent)
+            }
+            R.id.trPolls->{
+                gotoCreatePostActivity()
+            }
+            R.id.trmcq->{
+                gotoCreatePostActivity()
+            }
+            R.id.trPhoto->{
+                gotoCreatePostActivity()
+            }
+            R.id.etWriteFeed->{
+                gotoCreatePostActivity()
             }
         }
     }
@@ -454,6 +487,61 @@ class ProfileFragment : BaseFragment() ,View.OnClickListener{
                 }
             }
         }
+    }
+
+
+    fun expandCloseBottomSheetBehaviour(): Boolean {
+        return bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN
+    }
+
+    fun getFeedsResponse() {
+        val feedsResponse = FeedsParams()
+        feedsResponse.userid = getBaseActivity()!!.decodeString(getBaseActivity()!!.getUsersLocally().id!!)
+        val call = BibouApiClient
+            .instance(getBaseActivity()!!)
+            .usersApi.getUserFeedsResponse(feedsResponse)
+
+        call.enqueue(object : Callback<FeedsResponse> {
+            override fun onResponse(
+                call: Call<FeedsResponse>,
+                response: Response<FeedsResponse>
+            ) {
+                if (response.isSuccessful && response.body() != null) {
+                    val feedsResponseFinal = response.body()!!;
+                    val feedsAdapter = FeedsAdapter(feedsResponseFinal.Responce!!, getBaseActivity()!!,this@ProfileFragment)
+                    rvFeeds.adapter = feedsAdapter
+                }
+            }
+
+            override fun onFailure(call: Call<FeedsResponse>, t: Throwable) {
+                showToast(t.toString())
+            }
+        })
+    }
+
+    fun gotoCreatePostActivity(){
+        val intent = Intent(requireActivity(),CreatePostFeedsActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun onItemMenuClick(feeds: Feeds) {
+        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+        } else {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+    }
+
+    override fun onCommentClick(feeds: Feeds) {
+
+    }
+
+    override fun onLikeClick(feeds: Feeds, pos: Int) {
+
+    }
+
+    override fun onShareClick(feeds: Feeds) {
+
     }
 
 

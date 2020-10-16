@@ -18,4 +18,5 @@ class Feeds : Serializable  {
     var posttext=""
     var postid =""
     var shareuserid=""
+    var is_like: Boolean = false
 }

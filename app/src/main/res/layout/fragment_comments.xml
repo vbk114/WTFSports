@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/arrow"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comments"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_centerInParent="true"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/v1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F2F2F2"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/comments_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F2F2F2"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+
+            <com.e5ctech.wtfsports.widgets.KeyboardEditText
+                android:id="@+id/et_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/rounded_curved_border"
+                android:hint="Write a comment..."
+                android:textSize="14sp"
+                android:textColorHint="@color/brown_grey"
+                android:letterSpacing="0.05"
+                app:layout_constraintHeight_max="70dp"
+                android:maxHeight="70dp"
+                android:paddingStart="20dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="6dp"/>
+
+            <ImageView
+                android:id="@+id/btn_send"
+                android:layout_width="27dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="18dp"
+                android:padding="5dp"
+                app:srcCompat="@drawable/icon_send"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

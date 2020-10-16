@@ -1,13 +1,11 @@
 package com.e5ctech.wtfsports.accounts.adapters
 
-import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.e5ctech.wtfsports.BuildConfig
 import com.e5ctech.wtfsports.R
@@ -28,12 +26,14 @@ class FeedsAdapter(var feedsList:MutableList<Feeds>,
     interface onItemMenuSelectedListener {
         fun onItemMenuClick(feeds: Feeds)
         fun onCommentClick(feeds: Feeds)
+        fun onLikeClick(feeds: Feeds, pos: Int)
+        fun onShareClick(feeds: Feeds)
     }
 
     override fun onBindViewHolder(holder: CustomHolder, position: Int) {
         val feeds = feedsList[holder.adapterPosition]
 
-        holder.bindProducts(activity,onitemMenuSelectedListener, feeds);
+        holder.bindProducts(activity,onitemMenuSelectedListener, feeds, holder.adapterPosition)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomHolder {
@@ -52,16 +52,25 @@ class FeedsAdapter(var feedsList:MutableList<Feeds>,
         val tvFeedDetails = itemView.findViewById(R.id.tvFeedDetails) as TextView
         val tvLikeCommentCountNo = itemView.findViewById(R.id.tvLikeCommentCountNo) as TextView
         val tvComment = itemView.findViewById(R.id.tvComment) as TextView
+        var tvLike = itemView.findViewById(R.id.tvLike) as TextView
+        var tvShare = itemView.findViewById(R.id.tvShare) as TextView
         
         fun bindProducts(
             activity: BaseActivity,
             onitemMenuSelectedListener: onItemMenuSelectedListener,
-           feeds: Feeds
+            feeds: Feeds,
+            adapterPosition: Int
         ) {
 
             tvName.text = activity.getUsersLocally().fullname
             tvFeedDetails.text = feeds.posttext
             tvTime.text = "10.30 PM"
+
+            if (feeds.is_like){
+                tvLike.setTextColor(ContextCompat.getColor(activity, R.color.blue))
+            } else {
+                tvLike.setTextColor(ContextCompat.getColor(activity, R.color.black))
+            }
 
             Picasso.get()
                 .load(BuildConfig.APP_HOST+feeds.postimage)
@@ -81,6 +90,14 @@ class FeedsAdapter(var feedsList:MutableList<Feeds>,
 
             tvComment.setOnClickListener {
                 onitemMenuSelectedListener.onCommentClick(feeds)
+            }
+
+            tvLike.setOnClickListener {
+                onitemMenuSelectedListener.onLikeClick(feeds, adapterPosition)
+            }
+
+            tvShare.setOnClickListener {
+                onitemMenuSelectedListener.onShareClick(feeds)
             }
         }
     }

@@ -1,6 +1,7 @@
 package bibou.biboubeauty.com.utils.networking
 
 import android.content.Context
+import android.util.Log
 import com.e5ctech.wtfsports.BuildConfig
 import com.e5ctech.wtfsports.accounts.api.DashboardApi
 import com.e5ctech.wtfsports.accounts.api.UsersApi
@@ -42,6 +43,7 @@ class BibouApiClient(var context: Context) {
                         .addHeader("Content-Type", "application/json;charset=UTF-8")
                         .addHeader("Authorization", " Bearer " + baseActivity!!.getUsersLocally().tokens.access)
                         .method(original.method(), original.body())
+                    Log.e("ttookkeenn","::::" + baseActivity!!.getUsersLocally().tokens.access)
                 }else{
                     requestBuilder = original.newBuilder()
                         .addHeader("Content-Type", "application/json;charset=UTF-8")

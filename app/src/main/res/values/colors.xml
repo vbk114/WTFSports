@@ -123,5 +123,9 @@
     <color name="color_7cbbc8">#7cbbc8</color>
     <color name="color_5b8e99">#5b8e99</color>
     <color name="color_93c9d4">#93c9d4</color>
+    <color name="very_light_pink">#dddddd</color>
+    <color name="brown_grey">#767676</color>
+    <color name="light_white">#F2F3F5</color>
+    <color name="blue">#4080FF</color>
 
 </resources>

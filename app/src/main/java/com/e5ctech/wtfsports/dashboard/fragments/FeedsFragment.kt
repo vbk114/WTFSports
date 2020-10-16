@@ -16,9 +16,8 @@ import androidx.viewpager.widget.ViewPager
 import bibou.biboubeauty.com.utils.networking.BibouApiClient
 import com.e5ctech.wtfsports.R
 import com.e5ctech.wtfsports.accounts.adapters.FeedsAdapter
-import com.e5ctech.wtfsports.dashboard.model.Feeds
-import com.e5ctech.wtfsports.dashboard.model.FeedsParams
-import com.e5ctech.wtfsports.dashboard.model.FeedsResponse
+import com.e5ctech.wtfsports.dashboard.model.*
+import com.e5ctech.wtfsports.modules.module_comments.CommentsFragment
 import com.e5ctech.wtfsports.utils.base.BaseFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
@@ -34,10 +33,13 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
 
     }
 
+    private var postLikePos: Int = -1
+    private var postLikeFeed: Feeds? = null
     lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
     lateinit var rvFeeds:RecyclerView
     var vbg: View? = null
     var selectedfeeds: Feeds? = null
+    var feedsList:MutableList<Feeds>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -200,10 +202,11 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
                 response: Response<FeedsResponse>
             ) {
                 if (response.isSuccessful && response.body() != null) {
-                    val feedsResponseFinal = response.body()!!;
-                    val feedsAdapter = FeedsAdapter(feedsResponseFinal.Responce!!, getBaseActivity()!!,this@FeedsFragment)
-                    rvFeeds.adapter = feedsAdapter
                     dismissProgressDialog()
+                    val feedsResponseFinal = response.body()!!
+                    feedsList = feedsResponseFinal.Responce!!
+                    val feedsAdapter = FeedsAdapter(feedsList!!, getBaseActivity()!!,this@FeedsFragment)
+                    rvFeeds.adapter = feedsAdapter
                 } else {
                     dismissProgressDialog()
                 }
@@ -250,13 +253,70 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
     }
 
     override fun onCommentClick(feeds: Feeds) {
-        /*var fragment = Fragment()
-        fragment = HomeFragment()
+        var fragment = Fragment()
+        var args = Bundle()
+        args.putSerializable("post", feeds)
+        fragment = CommentsFragment()
+        fragment.arguments = args
         requireActivity().supportFragmentManager
             .beginTransaction()
-            .replace(R.id.containerNavigation, fragment)
-            .commit()*/
+            .replace(R.id.container, fragment)
+            .addToBackStack("fragment_more")
+            .commit()
     }
 
+    override fun onLikeClick(feeds: Feeds, pos: Int) {
+        this.postLikeFeed = feeds
+        this.postLikePos = pos
+        postLike(feeds)
+    }
 
+    override fun onShareClick(feeds: Feeds) {
+        val intent = Intent(requireActivity(), CreatePostFeedsActivity::class.java)
+        var args = Bundle()
+        args.putBoolean("is_share", true)
+        args.putSerializable("feed", feeds)
+        intent.putExtras(args)
+        startActivity(intent)
+    }
+
+    private fun postLike(feeds: Feeds) {
+        showProgressDialog()
+        val feedsResponse = LikePostParams()
+        var userid = getBaseActivity()!!.decodeString(getBaseActivity()!!.getUsersLocally().id!!)
+        feedsResponse.likeuserid = getBaseActivity()!!.decodeString(getBaseActivity()!!.getUsersLocally().id!!)
+        feedsResponse.likepostid = feeds.id.toString()
+        val call = BibouApiClient
+            .instance(getBaseActivity()!!)
+            .usersApi.likePostResponse(feedsResponse)
+
+        call.enqueue(object : Callback<LikePostResponse> {
+            override fun onResponse(
+                call: Call<LikePostResponse>,
+                response: Response<LikePostResponse>
+            ) {
+                if (response.isSuccessful && response.body() != null) {
+                    val feedsResponseFinal = response.body()!!
+                    dismissProgressDialog()
+                    if (feedsResponseFinal.status){
+                        if (feedsResponseFinal.Response.like){
+                            feedsList!!.get(postLikePos).is_like = true
+                        } else {
+                            feedsList!!.get(postLikePos).is_like = false
+                        }
+                    }
+                    /*val feedsAdapter = FeedsAdapter(feedsList!!, getBaseActivity()!!,this@FeedsFragment)
+                    rvFeeds.adapter = feedsAdapter*/
+                    rvFeeds.adapter!!.notifyDataSetChanged()
+                } else {
+                    dismissProgressDialog()
+                }
+            }
+
+            override fun onFailure(call: Call<LikePostResponse>, t: Throwable) {
+                dismissProgressDialog()
+                showToast(t.toString())
+            }
+        })
+    }
 }

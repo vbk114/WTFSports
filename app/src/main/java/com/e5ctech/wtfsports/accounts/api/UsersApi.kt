@@ -36,6 +36,10 @@ interface UsersApi {
     @PUT("main/update-post/{id}/")
     fun updatePost(@Path("id") id:Int, @Body feeds: AddPost): Call<FeedsResponse>
 
+
+    @POST("main/share-post/")
+    fun sharePost(@Body feeds: SharePost): Call<FeedsResponse>
+
     @Headers("Content-Type: application/json")
     @DELETE("main/delete-post/{id}/")
     fun deletePost(@Path("id") id:Int): Call<FeedsResponse>
@@ -57,6 +61,19 @@ interface UsersApi {
     @Headers("Content-Type: application/json")
     @POST("main/get-personal-feeds/")
     fun getFeedsResponse(@Body feedsResponse: FeedsParams): Call<FeedsResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("main/comment-post/{postid}/{userid}")
+    fun commentPostResponse(@Path("postid") postid:Int, @Path("userid") userId:String,
+                            @Body feedsResponse: CommentPostParams): Call<DefaultResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("main/like-post/")
+    fun likePostResponse(@Body feedsResponse: LikePostParams): Call<LikePostResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("main/get-personal-profile-feeds/")
+    fun getUserFeedsResponse(@Body feedsResponse: FeedsParams): Call<FeedsResponse>
 
     @Headers("Content-Type: application/json")
     @GET("auth/country/")

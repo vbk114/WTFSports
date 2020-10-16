@@ -22,13 +22,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/otp_button_border"
             android:orientation="vertical">
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10dp"
+                android:background="@color/white"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <RelativeLayout
@@ -253,6 +254,392 @@
                     android:textSize="18dp" />
 
             </RelativeLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:background="@color/white"
+                android:orientation="horizontal" >
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:gravity="center_vertical"
+                        android:text="Friends"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:gravity="center_vertical"
+                        android:text="567 friends"
+                        android:layout_weight="1"
+                        android:textColor="@color/grey_light"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:gravity="end"
+                    android:layout_gravity="end"
+                    android:text="Find Friends"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvFriends"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5sdp"
+                    android:background="@color/otp_button_border"
+                    app:spanCount="3"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+
+                <Button
+                    android:id="@+id/bnSeeAllFirends"
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:background="@drawable/rounded_rect_corner_button"
+                    android:text="See All Friends"
+                    android:layout_gravity="center_horizontal"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="18dp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llCreatePost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:padding="10dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/userImageProfile"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="start"
+                        android:src="@drawable/userimage" />
+
+                    <EditText
+                        android:id="@+id/etWriteFeed"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="5dp"
+                        android:background="@null"
+                        android:clickable="false"
+                        android:drawablePadding="6dp"
+                        android:focusable="false"
+                        android:gravity="center_vertical"
+                        android:hint="What's on your mind?"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:weightSum="3">
+
+                    <TableRow
+                        android:id="@+id/trmcq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <ImageView
+                            android:id="@+id/ivMcq"
+                            android:layout_width = "@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_gravity="center|center_vertical"
+                            android:src="@drawable/mcq_createpostpage"
+                            />
+
+                        <TextView
+                            android:id="@+id/tvMcq"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:text="MCQ"
+                            android:gravity="center"
+                            android:layout_gravity="center|center_vertical"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+
+                    </TableRow>
+
+                    <View
+                        android:id="@+id/separatorl"
+                        android:layout_width="1dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/black" />
+
+                    <TableRow
+                        android:id="@+id/trPolls"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <ImageView
+                            android:layout_width = "@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:src="@drawable/poll_createpostpage"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/tvPolls"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:text="Polls"
+                            android:layout_gravity="center|center_vertical"
+                            android:textColor="@color/black"
+                            android:gravity="center_vertical"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+
+                    </TableRow>
+
+                    <View
+                        android:id="@+id/separatorff"
+                        android:layout_width="1dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/black" />
+
+                    <TableRow
+                        android:id="@+id/trPhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <ImageView
+                            android:id="@+id/ivPhoto"
+                            android:layout_width = "@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:src="@drawable/photo_createpostpage"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:id="@+id/tvphoto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:text="Photo"
+                            android:layout_gravity="center|center_vertical"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+
+                    </TableRow>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/flContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvFeeds"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/otp_button_border"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <LinearLayout
+                    android:id="@+id/bottom_sheet"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rounded_top_rect_corner"
+                    android:orientation="vertical"
+                    android:layout_gravity="bottom"
+                    app:behavior_hideable="true"
+                    android:padding="@dimen/_10sdp"
+                    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+                    <TableRow
+                        android:id="@+id/trEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_20sdp">
+
+                        <ImageView
+                            android:id="@+id/ivedit"
+                            android:layout_width = "@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:src="@drawable/photo_createpostpage"
+                            android:visibility="gone"
+                            android:layout_centerVertical ="true" />
+
+                        <TextView
+                            android:id="@+id/tvEdit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:text="Edit post"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+
+                    </TableRow>
+
+                    <View android:id="@+id/separator1"
+                        android:background="@color/black"
+                        android:layout_width = "fill_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginTop="10dp" />
+
+                    <TableRow
+                        android:id="@+id/trSavePost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <ImageView
+                            android:id="@+id/ivSavePost"
+                            android:layout_width = "@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:visibility="gone"
+                            android:src="@drawable/poll_createpostpage"
+                            android:layout_centerVertical ="true" />
+
+                        <TextView
+                            android:id="@+id/tvSavePost"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:text="Save post"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+
+                    </TableRow>
+
+                    <View android:id="@+id/separator2"
+                        android:background="@color/black"
+                        android:layout_width = "fill_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginTop="10dp"  />
+
+                    <TableRow
+                        android:id="@+id/trDelete"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <ImageView
+                            android:id="@+id/ivdelete"
+                            android:layout_width = "@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:visibility="gone"
+                            android:src="@drawable/mcq_createpostpage"
+                            />
+
+                        <TextView
+                            android:id="@+id/tvDelete"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:text="Delete post"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:drawablePadding="10dp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="18sp" />
+
+                    </TableRow>
+
+                    <View
+                        android:background="@color/black"
+                        android:layout_width = "fill_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginTop="10dp"  />
+
+                    <View
+                        android:id="@+id/sheet_header_shadow"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:alpha="0"
+                        android:background="@color/white"
+                        android:stateListAnimator="@anim/fragment_close_enter" />
+
+
+                </LinearLayout>
+
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
 
         </LinearLayout>

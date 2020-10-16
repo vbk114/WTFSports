@@ -29,6 +29,10 @@ class HomeActivity : BaseActivity(){
     lateinit var containerNavigation:RelativeLayout
     lateinit var tvName:TextView
 
+    companion object {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -147,5 +151,15 @@ class HomeActivity : BaseActivity(){
             return true
         }
         return false
+    }
+
+    fun hideTopBottom() {
+        rvHomeNavigation.visibility = View.GONE
+        tablayoutBottom.visibility = View.GONE
+    }
+
+    fun showTopBottom() {
+        rvHomeNavigation.visibility = View.VISIBLE
+        tablayoutBottom.visibility = View.VISIBLE
     }
 }

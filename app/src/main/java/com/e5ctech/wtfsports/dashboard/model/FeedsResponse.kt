@@ -22,5 +22,6 @@ class FeedsResponse : Serializable  {
     var Responce:MutableList<Feeds> ? = null
     var Response:Feeds?=null
     var message : String=""
+    var messages : String=""
     var senderid:String = ""
 }
