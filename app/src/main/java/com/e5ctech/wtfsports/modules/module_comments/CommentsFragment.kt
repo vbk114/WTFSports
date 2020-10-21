@@ -6,23 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import bibou.biboubeauty.com.utils.networking.BibouApiClient
 import bibou.biboubeauty.com.utils.networking.DefaultResponse
-import com.e5ctech.wtfsports.BuildConfig
-import com.e5ctech.wtfsports.R
 import com.e5ctech.wtfsports.dashboard.activities.HomeActivity
 import com.e5ctech.wtfsports.dashboard.model.CommentPostParams
 import com.e5ctech.wtfsports.dashboard.model.Feeds
 import com.e5ctech.wtfsports.databinding.FragmentCommentsBinding
 import com.e5ctech.wtfsports.utils.Utils
 import com.e5ctech.wtfsports.utils.base.BaseFragment
-import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.logging.ErrorManager
 
 class CommentsFragment : BaseFragment() {
 
@@ -53,11 +48,16 @@ class CommentsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.commentsRecycler.layoutManager = LinearLayoutManager(activity)
 
+        getPostComments()
         setComments()
     }
 
+    private fun getPostComments() {
+
+    }
+
     private fun setComments() {
-        commentsAdapter = CommentsAdapter(requireActivity())
+        commentsAdapter = CommentsAdapter(requireActivity(), post!!.comments)
         binding.commentsRecycler.adapter = commentsAdapter
     }
 
@@ -81,6 +81,8 @@ class CommentsFragment : BaseFragment() {
         showProgressDialog()
         var commentParams = CommentPostParams()
         commentParams.comments = binding.etComment.text.toString()
+        commentParams.comment_postid = post!!.id
+        commentParams.comment_postuserid = getBaseActivity()!!.decodeString(getBaseActivity()!!.getUsersLocally().id!!).toInt()
         val call = BibouApiClient
             .instance(getBaseActivity()!!)
             .usersApi.commentPostResponse(
@@ -98,6 +100,7 @@ class CommentsFragment : BaseFragment() {
                     val defaultResponse = response.body();
                     Log.e("TAG", "response 33: " + defaultResponse!!.Responce.email)
                     dismissProgressDialog()
+                    commentsAdapter!!.notifyDataSetChanged()
                 } else {
                     binding.btnSend.isEnabled = true
                     dismissProgressDialog()

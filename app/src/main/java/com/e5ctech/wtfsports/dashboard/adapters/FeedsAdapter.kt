@@ -1,5 +1,6 @@
 package com.e5ctech.wtfsports.accounts.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,21 +11,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.e5ctech.wtfsports.BuildConfig
 import com.e5ctech.wtfsports.R
 import com.e5ctech.wtfsports.dashboard.model.Feeds
+import com.e5ctech.wtfsports.utils.Utils.Companion.covertTimeToText
 import com.e5ctech.wtfsports.utils.base.BaseActivity
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FeedsAdapter(var feedsList:MutableList<Feeds>,
                         val activity: BaseActivity,
                    var onitemMenuSelectedListener: onItemMenuSelectedListener,
 ) : RecyclerView.Adapter<FeedsAdapter.CustomHolder>() {
 
+    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH)
+
+    init {
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
+    }
     override fun getItemCount(): Int {
         return feedsList.size
     }
 
     interface onItemMenuSelectedListener {
-        fun onItemMenuClick(feeds: Feeds)
+        fun onItemMenuClick(feeds: Feeds, pos: Int)
         fun onCommentClick(feeds: Feeds)
         fun onLikeClick(feeds: Feeds, pos: Int)
         fun onShareClick(feeds: Feeds)
@@ -62,11 +72,19 @@ class FeedsAdapter(var feedsList:MutableList<Feeds>,
             adapterPosition: Int
         ) {
 
-            tvName.text = activity.getUsersLocally().fullname
+            tvName.text = feeds.username
             tvFeedDetails.text = feeds.posttext
-            tvTime.text = "10.30 PM"
+            var time : String? = null
+            try {
+                time = covertTimeToText(feeds.post_time)
+                Log.e("timetry", ":::" + time + "---" + feeds.post_time)
+            } catch (e: ParseException) {
+                time = feeds.post_time
+                Log.e("timecatch", ":::" + time + "---" + feeds.post_time)
+            }
+            tvTime.text = time
 
-            if (feeds.is_like){
+            if (feeds.islike){
                 tvLike.setTextColor(ContextCompat.getColor(activity, R.color.blue))
             } else {
                 tvLike.setTextColor(ContextCompat.getColor(activity, R.color.black))
@@ -83,9 +101,21 @@ class FeedsAdapter(var feedsList:MutableList<Feeds>,
                     }
                 })
 
+            Picasso.get()
+                .load(BuildConfig.APP_HOST+feeds.profile_image)
+                .into(ivFeedsUserIMage, object: Callback {
+                    override fun onSuccess() {
+                        ivFeedsUserIMage.visibility = View.VISIBLE
+                    }
+                    override fun onError(e:Exception) {
+                        ivFeedsUserIMage.setImageResource(R.drawable.userimage)
+                        //ivFeedsImage.visibility = View.GONE
+                    }
+                })
+
 
             ivMenu.setOnClickListener {
-                onitemMenuSelectedListener.onItemMenuClick(feeds)
+                onitemMenuSelectedListener.onItemMenuClick(feeds, adapterPosition)
             }
 
             tvComment.setOnClickListener {

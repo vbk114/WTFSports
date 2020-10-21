@@ -524,7 +524,7 @@ class ProfileFragment : BaseFragment() ,View.OnClickListener,FeedsAdapter.onItem
         startActivity(intent)
     }
 
-    override fun onItemMenuClick(feeds: Feeds) {
+    override fun onItemMenuClick(feeds: Feeds, pos: Int) {
         if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
         } else {

@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import bibou.biboubeauty.com.utils.networking.BibouApiClient
+import bibou.biboubeauty.com.utils.networking.DefaultResponse
 import com.e5ctech.wtfsports.R
 import com.e5ctech.wtfsports.accounts.adapters.FeedsAdapter
 import com.e5ctech.wtfsports.dashboard.model.*
@@ -34,6 +35,7 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
     }
 
     private var postLikePos: Int = -1
+    private var selected_pos:Int = -1
     private var postLikeFeed: Feeds? = null
     lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
     lateinit var rvFeeds:RecyclerView
@@ -152,16 +154,18 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
             .instance(getBaseActivity()!!)
             .usersApi.deletePost(selectedfeed!!.id)
 
-        call!!.enqueue(object : Callback<FeedsResponse> {
+        call!!.enqueue(object : Callback<DefaultResponse> {
             override fun onResponse(
-                call: Call<FeedsResponse>,
-                response: Response<FeedsResponse>
+                call: Call<DefaultResponse>,
+                response: Response<DefaultResponse>
             ) {
 
                 if (response.isSuccessful) {
 
-                    val defaultResponse = response.body();
-                    val users = defaultResponse!!.Responce
+                    val defaultResponse = response.body()
+                    //val users = defaultResponse!!.Responce
+                    feedsList!!.removeAt(selected_pos)
+                    rvFeeds.adapter!!.notifyDataSetChanged()
                     dismissProgressDialog()
                 } else {
                     dismissProgressDialog()
@@ -170,7 +174,7 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
                 }
             }
 
-            override fun onFailure(call: Call<FeedsResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
 
                 dismissProgressDialog()
                 //finish()
@@ -241,7 +245,8 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
         startActivity(intent)
     }
 
-    override fun onItemMenuClick(feeds: Feeds) {
+    override fun onItemMenuClick(feeds: Feeds, pos: Int) {
+        selected_pos = pos
         selectedfeeds = feeds
         if (bottomSheetBehavior!!.state == BottomSheetBehavior.STATE_HIDDEN) {
             bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HALF_EXPANDED
@@ -300,9 +305,9 @@ class FeedsFragment : BaseFragment(),View.OnClickListener,FeedsAdapter.onItemMen
                     dismissProgressDialog()
                     if (feedsResponseFinal.status){
                         if (feedsResponseFinal.Response.like){
-                            feedsList!!.get(postLikePos).is_like = true
+                            feedsList!!.get(postLikePos).islike = true
                         } else {
-                            feedsList!!.get(postLikePos).is_like = false
+                            feedsList!!.get(postLikePos).islike = false
                         }
                     }
                     /*val feedsAdapter = FeedsAdapter(feedsList!!, getBaseActivity()!!,this@FeedsFragment)

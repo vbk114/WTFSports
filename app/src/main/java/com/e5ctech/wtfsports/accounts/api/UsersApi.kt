@@ -40,9 +40,8 @@ interface UsersApi {
     @POST("main/share-post/")
     fun sharePost(@Body feeds: SharePost): Call<FeedsResponse>
 
-    @Headers("Content-Type: application/json")
     @DELETE("main/delete-post/{id}/")
-    fun deletePost(@Path("id") id:Int): Call<FeedsResponse>
+    fun deletePost(@Path("id") id:Int): Call<DefaultResponse>
 
     @POST("auth/login/")
     fun loginUser(@Body users: Users): Call<DefaultResponse>
@@ -63,7 +62,7 @@ interface UsersApi {
     fun getFeedsResponse(@Body feedsResponse: FeedsParams): Call<FeedsResponse>
 
     @Headers("Content-Type: application/json")
-    @POST("main/comment-post/{postid}/{userid}")
+    @POST("main/comment-post-edit-delete/{postid}/{userid}")
     fun commentPostResponse(@Path("postid") postid:Int, @Path("userid") userId:String,
                             @Body feedsResponse: CommentPostParams): Call<DefaultResponse>
 
